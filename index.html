@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>生日快乐</title>
+<title>给智敏</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,7 +15,7 @@
 
 body {
   height: 100vh;
-  background: linear-gradient(135deg, #1d2671, #c33764);
+  background: radial-gradient(circle at top, #24104f, #05010d);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -23,88 +23,133 @@ body {
   color: #fff;
 }
 
-/* 背景星点 */
-.stars span {
+/* 动态光环背景 */
+.bg::before, .bg::after {
+  content: "";
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: rgba(255,255,255,0.8);
-  animation: float 6s infinite ease-in-out;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    #ff4ecd,
+    #ffb347,
+    #6be6ff,
+    #9b5cff,
+    #ff4ecd
+  );
+  animation: rotate 26s linear infinite;
+  opacity: 0.18;
 }
 
-@keyframes float {
-  0% { transform: translateY(0); opacity: .3; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-80px); opacity: .3; }
+.bg::after {
+  animation-duration: 40s;
+  opacity: 0.1;
 }
 
-/* 玻璃卡片 */
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+
+/* 星点 */
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  animation: twinkle 4s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  50% { opacity: .25; transform: scale(0.6); }
+}
+
+/* 主卡片 */
 .card {
-  width: 90%;
-  max-width: 380px;
-  padding: 40px 30px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 24px;
-  backdrop-filter: blur(14px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  position: relative;
+  z-index: 2;
+  width: 92%;
+  max-width: 420px;
+  padding: 46px 34px;
+  background: rgba(255,255,255,0.10);
+  border-radius: 30px;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 40px rgba(140,120,255,0.35),
+    0 0 80px rgba(0,200,255,0.18);
   text-align: center;
-  animation: fadeIn 1.8s ease forwards;
+  animation: popIn 1.6s ease forwards;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
+/* 标题 */
 h1 {
-  font-size: 28px;
-  margin-bottom: 18px;
-  background: linear-gradient(90deg, #ffe259, #ffa751);
+  font-size: 30px;
+  margin-bottom: 24px;
+  background: linear-gradient(90deg, #fbd3e9, #bbd2c5, #c2e9fb);
+  background-size: 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: gradientMove 8s infinite linear;
+}
+
+@keyframes gradientMove {
+  to { background-position: 300%; }
 }
 
 p {
   font-size: 16px;
-  line-height: 1.9;
+  line-height: 2;
   opacity: 0;
-  animation: textFade 2s ease forwards;
+  animation: fadeText 2.2s ease forwards;
   animation-delay: 0.8s;
 }
 
-@keyframes textFade {
+@keyframes fadeText {
   to { opacity: 1; }
 }
 
 .footer {
-  margin-top: 26px;
+  margin-top: 28px;
   font-size: 13px;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 星点 -->
-<div class="stars">
-  <span style="top:20%; left:15%"></span>
-  <span style="top:40%; left:70%"></span>
-  <span style="top:65%; left:30%"></span>
-  <span style="top:80%; left:80%"></span>
-  <span style="top:50%; left:50%"></span>
-</div>
+<div class="bg"></div>
+
+<!-- 星点生成 -->
+<script>
+for (let i = 0; i < 45; i++) {
+  const star = document.createElement("div");
+  star.className = "star";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.animationDelay = Math.random() * 4 + "s";
+  document.body.appendChild(star);
+}
+</script>
 
 <div class="card">
-  <h1>生日快乐 🎂</h1>
+  <h1>给 智敏</h1>
   <p>
-    愿你新的一岁<br>
-    不被定义，不被催促<br>
-    有选择生活的自由<br>
-    也有被温柔拥抱的时刻
+    今天不祝你“永远快乐”<br>
+    也不祝你“事事顺利”<br><br>
+
+    只祝你在不顺的时候<br>
+    不急着否定自己<br>
+    在安静的日子里<br>
+    依然知道自己值得被尊重
   </p>
   <div class="footer">
-    今天，世界为你停留 ✨
+    又一年，世界如常，你亦如是
   </div>
 </div>
 
