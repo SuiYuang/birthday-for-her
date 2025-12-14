@@ -10,131 +10,106 @@
 body{
   height:100vh;
   overflow:hidden;
-  background:
-    radial-gradient(circle at 50% 20%, #5a235f, #120016 70%);
+  background:radial-gradient(circle at 50% 25%, #4b1d4f, #0e0013 75%);
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
   color:#fff;
 }
 
-/* ===== 深空背景 ===== */
-.space{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-}
+/* ===== 背景空间 ===== */
+.space{position:absolute;inset:0;overflow:hidden;}
 .nebula{
   position:absolute;
-  width:140vw;
-  height:140vw;
-  background:
-    radial-gradient(circle,
-      rgba(255,190,220,.18),
-      rgba(160,120,255,.08),
-      transparent 70%);
-  animation:nebulaMove 90s linear infinite;
+  width:160vw;
+  height:160vw;
+  background:radial-gradient(circle,
+    rgba(255,190,220,.16),
+    rgba(160,120,255,.08),
+    transparent 70%);
+  animation:nebula 120s linear infinite;
 }
-@keyframes nebulaMove{
-  to{transform:rotate(360deg);}
-}
+@keyframes nebula{to{transform:rotate(360deg);}}
 
-/* ===== 星云粒子 ===== */
+/* ===== 星点 ===== */
 .star{
   position:absolute;
+  width:2px;height:2px;
+  background:rgba(255,240,250,.8);
   border-radius:50%;
-  background:rgba(255,240,250,.9);
   animation:drift linear infinite;
 }
 @keyframes drift{
-  to{transform:translateY(-120vh);}
+  to{transform:translateY(-130vh);}
 }
 
-/* ===== 光晶体 ===== */
+/* ===== 光晶体（慢） ===== */
 .prism{
   position:absolute;
-  width:140px;
-  height:140px;
+  width:120px;height:120px;
   background:linear-gradient(
     135deg,
-    rgba(255,220,235,.25),
-    rgba(180,140,255,.15),
-    rgba(255,220,235,.25)
+    rgba(255,210,230,.22),
+    rgba(180,150,255,.12),
+    rgba(255,210,230,.22)
   );
-  clip-path:polygon(50% 0, 100% 30%, 80% 100%, 20% 100%, 0 30%);
-  animation:prismRotate 60s linear infinite;
+  clip-path:polygon(50% 0,100% 30%,80% 100%,20% 100%,0 30%);
+  animation:prism 90s linear infinite;
 }
-@keyframes prismRotate{
-  to{transform:rotate(360deg);}
-}
-
-/* ===== 生日粒子 ===== */
-.symbol{
-  position:absolute;
-  font-size:18px;
-  opacity:.85;
-  animation:floatSymbol 24s linear infinite;
-}
-@keyframes floatSymbol{
-  from{transform:translateY(110vh);opacity:0;}
-  20%{opacity:1;}
-  to{transform:translateY(-140px);opacity:0;}
-}
+@keyframes prism{to{transform:rotate(360deg);}}
 
 /* ===== 卡片 ===== */
 .card{
   position:absolute;
-  left:50%;
-  top:50%;
+  left:50%;top:50%;
   transform:translate(-50%,-50%);
   width:88%;
   max-width:420px;
   padding:56px 34px;
-  background:rgba(255,255,255,.12);
-  backdrop-filter:blur(28px);
-  border-radius:40px;
+  background:rgba(255,255,255,.11);
+  backdrop-filter:blur(30px);
+  border-radius:42px;
   box-shadow:
-    0 0 90px rgba(255,170,220,.55),
-    0 0 180px rgba(190,150,255,.45);
+    0 0 100px rgba(255,170,220,.45),
+    0 0 200px rgba(190,150,255,.35);
   text-align:center;
-  animation:cardIn 2.2s ease forwards;
+  animation:cardIn 2.6s ease forwards;
 }
 @keyframes cardIn{
-  from{opacity:0;transform:translate(-50%,-55%) scale(.85);}
+  from{opacity:0;transform:translate(-50%,-56%) scale(.86);}
   to{opacity:1;transform:translate(-50%,-50%) scale(1);}
 }
 
 /* ===== 标题 ===== */
 h1{
   font-size:32px;
-  margin-bottom:28px;
+  margin-bottom:30px;
   background:linear-gradient(
-    120deg,
-    #ffd1dc,
-    #ffe6a7,
-    #e0c3fc,
-    #ffd1dc
+    120deg,#ffd1dc,#ffe6a7,#e0c3fc,#ffd1dc
   );
   background-size:400%;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:spectrum 18s linear infinite;
+  animation:titleFlow 22s linear infinite;
 }
-@keyframes spectrum{
-  to{background-position:400%;}
-}
+@keyframes titleFlow{to{background-position:400%;}}
 
-p{
+/* ===== 行文淡入 ===== */
+.line{
   font-size:16px;
   line-height:2.1;
   opacity:0;
-  animation:textIn 3s ease forwards;
-  animation-delay:1.2s;
+  transform:translateY(8px);
+  animation:lineIn 1.8s ease forwards;
 }
-@keyframes textIn{to{opacity:1;}}
+@keyframes lineIn{
+  to{opacity:1;transform:translateY(0);}
+}
 
 .footer{
   margin-top:34px;
   font-size:13px;
-  opacity:.85;
+  opacity:0;
+  animation:lineIn 2s ease forwards;
+  animation-delay:7.2s;
 }
 
 /* ===== 音乐提示 ===== */
@@ -144,7 +119,7 @@ p{
   width:100%;
   text-align:center;
   font-size:12px;
-  opacity:.6;
+  opacity:.55;
 }
 </style>
 </head>
@@ -156,58 +131,44 @@ p{
 </div>
 
 <script>
-/* 星云粒子 */
-for(let i=0;i<160;i++){
+/* 星点 */
+for(let i=0;i<120;i++){
   const s=document.createElement("div");
   s.className="star";
-  const size=Math.random()*2+1;
-  s.style.width=s.style.height=size+"px";
   s.style.left=Math.random()*100+"%";
   s.style.top=Math.random()*100+"%";
-  s.style.animationDuration=20+Math.random()*40+"s";
+  s.style.animationDuration=30+Math.random()*50+"s";
   document.body.appendChild(s);
 }
-
 /* 光晶体 */
-for(let i=0;i<5;i++){
+for(let i=0;i<4;i++){
   const p=document.createElement("div");
   p.className="prism";
-  p.style.top=Math.random()*100+"%";
   p.style.left=Math.random()*100+"%";
-  p.style.animationDelay=Math.random()*30+"s";
+  p.style.top=Math.random()*100+"%";
   document.body.appendChild(p);
-}
-
-/* 生日符号 */
-const icons=["🎂","🎉","🎈","🕯️","✨"];
-for(let i=0;i<42;i++){
-  const s=document.createElement("div");
-  s.className="symbol";
-  s.innerText=icons[Math.floor(Math.random()*icons.length)];
-  s.style.left=Math.random()*100+"%";
-  s.style.fontSize=16+Math.random()*12+"px";
-  s.style.animationDelay=Math.random()*24+"s";
-  document.body.appendChild(s);
 }
 </script>
 
 <div class="card">
   <h1>生日快乐，智敏</h1>
-  <p>
-    今天不需要计划未来<br>
-    也不必回应世界的期待<br><br>
-    这一刻<br>
-    只是属于你<br><br>
-    愿时间对你<br>
-    一直留有温柔
-  </p>
+
+  <div class="line" style="animation-delay:1.4s">今天不需要计划未来</div>
+  <div class="line" style="animation-delay:2.6s">也不必回应世界的期待</div>
+  <br>
+  <div class="line" style="animation-delay:3.8s">这一刻</div>
+  <div class="line" style="animation-delay:4.8s">只是属于你</div>
+  <br>
+  <div class="line" style="animation-delay:6s">愿时间对你</div>
+  <div class="line" style="animation-delay:7s">一直留有温柔</div>
+
   <div class="footer">这一岁，被认真照亮</div>
 </div>
 
-<div class="hint">轻触屏幕，钢琴会为你奏响 🎹</div>
+<div class="hint">轻触屏幕，音乐将开始 🎹</div>
 
 <script>
-/* ===== 复杂钢琴演奏 ===== */
+/* ===== 生日快乐 · 钢琴变奏（有节拍） ===== */
 let started=false;
 document.addEventListener("click",()=>{
   if(started) return;
@@ -215,8 +176,12 @@ document.addEventListener("click",()=>{
 
   const ctx=new (window.AudioContext||window.webkitAudioContext)();
 
-  const melody=[264,297,330,352,396,352,330,297];
-  const bass=[132,176,198,176];
+  const melody=[
+    264,264,297,264,352,330,
+    264,264,297,264,396,352,
+    264,264,528,440,352,330,297,
+    466,466,440,352,396,352
+  ];
 
   function piano(freq,time,dur,vol){
     const osc=ctx.createOscillator();
@@ -224,25 +189,34 @@ document.addEventListener("click",()=>{
     osc.type="triangle";
     osc.frequency.value=freq;
     gain.gain.setValueAtTime(0.001,time);
-    gain.gain.exponentialRampToValueAtTime(vol,time+0.05);
+    gain.gain.exponentialRampToValueAtTime(vol,time+0.04);
     gain.gain.exponentialRampToValueAtTime(0.001,time+dur);
     osc.connect(gain).connect(ctx.destination);
     osc.start(time);
     osc.stop(time+dur+0.1);
   }
 
+  function beat(time){
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.type="sine";
+    osc.frequency.value=80;
+    gain.gain.setValueAtTime(0.001,time);
+    gain.gain.exponentialRampToValueAtTime(0.08,time+0.03);
+    gain.gain.exponentialRampToValueAtTime(0.001,time+0.2);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(time);
+    osc.stop(time+0.3);
+  }
+
   function play(){
     let t=ctx.currentTime;
-    melody.forEach(f=>{
-      piano(f,t,1.8,0.22);
-      t+=1.2;
+    melody.forEach((f,i)=>{
+      piano(f,t,1.4,0.22);
+      if(i%2===0) beat(t);
+      t+=0.9;
     });
-    let b=ctx.currentTime;
-    bass.forEach(f=>{
-      piano(f,b,3.6,0.28);
-      b+=2.4;
-    });
-    setTimeout(play,melody.length*1200);
+    setTimeout(play,melody.length*900);
   }
   play();
 });
