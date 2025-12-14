@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>智敏 · 生日</title>
+<title>给智敏</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 <style>
@@ -10,106 +10,183 @@
 body{
   height:100vh;
   overflow:hidden;
-  background:radial-gradient(circle at 50% 25%, #4b1d4f, #0e0013 75%);
+  background:radial-gradient(circle at 50% 25%, #4a1c4f, #0e0013 75%);
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-  color:#fff;
+  color:#2c1a1f;
 }
 
-/* ===== 背景空间 ===== */
-.space{position:absolute;inset:0;overflow:hidden;}
+/* ===== 背景 ===== */
+.space{position:absolute;inset:0;}
 .nebula{
   position:absolute;
-  width:160vw;
-  height:160vw;
+  width:160vw;height:160vw;
   background:radial-gradient(circle,
-    rgba(255,190,220,.16),
-    rgba(160,120,255,.08),
+    rgba(255,200,220,.15),
+    rgba(170,140,255,.08),
     transparent 70%);
-  animation:nebula 120s linear infinite;
+  animation:nebula 140s linear infinite;
 }
 @keyframes nebula{to{transform:rotate(360deg);}}
 
-/* ===== 星点 ===== */
-.star{
-  position:absolute;
-  width:2px;height:2px;
-  background:rgba(255,240,250,.8);
-  border-radius:50%;
-  animation:drift linear infinite;
-}
-@keyframes drift{
-  to{transform:translateY(-130vh);}
-}
-
-/* ===== 光晶体（慢） ===== */
-.prism{
-  position:absolute;
-  width:120px;height:120px;
-  background:linear-gradient(
-    135deg,
-    rgba(255,210,230,.22),
-    rgba(180,150,255,.12),
-    rgba(255,210,230,.22)
-  );
-  clip-path:polygon(50% 0,100% 30%,80% 100%,20% 100%,0 30%);
-  animation:prism 90s linear infinite;
-}
-@keyframes prism{to{transform:rotate(360deg);}}
-
-/* ===== 卡片 ===== */
-.card{
+/* ===== 信纸 ===== */
+.letter{
   position:absolute;
   left:50%;top:50%;
   transform:translate(-50%,-50%);
-  width:88%;
-  max-width:420px;
-  padding:56px 34px;
-  background:rgba(255,255,255,.11);
-  backdrop-filter:blur(30px);
-  border-radius:42px;
+  width:86%;
+  max-width:400px;
+  padding:52px 36px;
+  background:
+    linear-gradient(#fffdf8,#fff9f0),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,.02),
+      rgba(0,0,0,.02) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  background-blend-mode:overlay;
+  border-radius:18px;
   box-shadow:
-    0 0 100px rgba(255,170,220,.45),
-    0 0 200px rgba(190,150,255,.35);
+    0 12px 40px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(0,0,0,.04);
   text-align:center;
-  animation:cardIn 2.6s ease forwards;
+  animation:paperIn 2.8s ease forwards;
 }
-@keyframes cardIn{
-  from{opacity:0;transform:translate(-50%,-56%) scale(.86);}
+@keyframes paperIn{
+  from{opacity:0;transform:translate(-50%,-55%) scale(.92);}
   to{opacity:1;transform:translate(-50%,-50%) scale(1);}
 }
 
-/* ===== 标题 ===== */
 h1{
-  font-size:32px;
-  margin-bottom:30px;
-  background:linear-gradient(
-    120deg,#ffd1dc,#ffe6a7,#e0c3fc,#ffd1dc
-  );
-  background-size:400%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:titleFlow 22s linear infinite;
+  font-size:24px;
+  margin-bottom:28px;
+  color:#4a1c4f;
 }
-@keyframes titleFlow{to{background-position:400%;}}
 
-/* ===== 行文淡入 ===== */
+/* ===== 文本 ===== */
 .line{
-  font-size:16px;
+  font-size:14px;
   line-height:2.1;
   opacity:0;
-  transform:translateY(8px);
-  animation:lineIn 1.8s ease forwards;
+}
+
+/* 逐行 */
+.lineIn{
+  animation:lineIn 2s ease forwards;
 }
 @keyframes lineIn{
+  to{opacity:1;}
+}
+
+/* 逐字 */
+.char{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(6px);
+  animation:charIn 0.9s ease forwards;
+}
+@keyframes charIn{
   to{opacity:1;transform:translateY(0);}
 }
 
 .footer{
-  margin-top:34px;
-  font-size:13px;
+  margin-top:30px;
+  font-size:12px;
   opacity:0;
-  animation:lineIn 2s ease forwards;
-  animation-delay:7.2s;
+  animation:lineIn 2.4s ease forwards;
+  animation-delay:9.5s;
+}
+</style>
+</head>
+
+<body>
+
+<div class="space">
+  <div class="nebula"></div>
+</div>
+
+<div class="letter">
+  <h1>生日快乐，智敏</h1>
+
+  <!-- 前半：逐字 -->
+  <div class="line" id="l1"></div>
+  <div class="line" id="l2" style="margin-bottom:14px"></div>
+
+  <!-- 后半：逐行 -->
+  <div class="line lineIn" style="animation-delay:5.2s">这一刻</div>
+  <div class="line lineIn" style="animation-delay:6.4s">只是属于你</div>
+  <br>
+  <div class="line lineIn" style="animation-delay:7.6s">愿时间对你</div>
+  <div class="line lineIn" style="animation-delay:8.8s">一直留有温柔</div>
+
+  <div class="footer">这一岁，被认真照亮</div>
+</div>
+
+<script>
+/* ===== 逐字渲染 ===== */
+function typeLine(id,text,delay){
+  const el=document.getElementById(id);
+  let t=delay;
+  [...text].forEach(ch=>{
+    const span=document.createElement("span");
+    span.className="char";
+    span.textContent=ch;
+    span.style.animationDelay=t+"s";
+    el.appendChild(span);
+    t+=0.12; // 慢 10%
+  });
+}
+typeLine("l1","今天不需要计划未来",1.2);
+typeLine("l2","也不必回应世界的期待",2.8);
+</script>
+
+<script>
+/* ===== 欢快钢琴生日快乐变奏 ===== */
+let started=false;
+document.addEventListener("click",()=>{
+  if(started) return;
+  started=true;
+
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+
+  const melody=[
+    264,264,297,264,352,330,
+    264,264,297,264,396,352,
+    264,264,528,440,352,330,297,
+    466,466,440,352,396,352
+  ];
+
+  const harmony=[132,176,198,176,147,196,220,196];
+
+  function piano(freq,time,dur,vol){
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.type="triangle";
+    osc.frequency.value=freq;
+    gain.gain.setValueAtTime(0.001,time);
+    gain.gain.exponentialRampToValueAtTime(vol,time+0.04);
+    gain.gain.exponentialRampToValueAtTime(0.001,time+dur);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(time);
+    osc.stop(time+dur+0.1);
+  }
+
+  function play(){
+    let t=ctx.currentTime;
+    melody.forEach((f,i)=>{
+      piano(f,t,1.2,0.22);
+      piano(harmony[i%harmony.length],t,1.8,0.18);
+      t+=0.8;
+    });
+    setTimeout(play,melody.length*800);
+  }
+  play();
+});
+</script>
+
+</body>
+</html>  animation-delay:7.2s;
 }
 
 /* ===== 音乐提示 ===== */
