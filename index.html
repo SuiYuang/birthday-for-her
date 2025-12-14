@@ -15,7 +15,7 @@
 
 body {
   height: 100vh;
-  background: radial-gradient(circle at top, #24104f, #05010d);
+  background: radial-gradient(circle at top, #3b1d3f, #120012);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -23,27 +23,26 @@ body {
   color: #fff;
 }
 
-/* 动态光环背景 */
+/* 暧昧光环 */
 .bg::before, .bg::after {
   content: "";
   position: absolute;
-  width: 200%;
-  height: 200%;
+  width: 220%;
+  height: 220%;
   background: conic-gradient(
     from 0deg,
-    #ff4ecd,
-    #ffb347,
-    #6be6ff,
-    #9b5cff,
-    #ff4ecd
+    #ff7aa2,
+    #ffd1a4,
+    #d6b3ff,
+    #ff7aa2
   );
-  animation: rotate 26s linear infinite;
-  opacity: 0.18;
+  animation: rotate 36s linear infinite;
+  opacity: 0.22;
 }
 
 .bg::after {
-  animation-duration: 40s;
-  opacity: 0.1;
+  animation-duration: 55s;
+  opacity: 0.12;
 }
 
 @keyframes rotate {
@@ -55,46 +54,46 @@ body {
   position: absolute;
   width: 3px;
   height: 3px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,220,230,0.9);
   border-radius: 50%;
-  animation: twinkle 4s infinite ease-in-out;
+  animation: twinkle 5s infinite ease-in-out;
 }
 
 @keyframes twinkle {
-  50% { opacity: .25; transform: scale(0.6); }
+  50% { opacity: .3; transform: scale(0.6); }
 }
 
-/* 主卡片 */
+/* 卡片 */
 .card {
   position: relative;
   z-index: 2;
   width: 92%;
   max-width: 420px;
-  padding: 46px 34px;
-  background: rgba(255,255,255,0.10);
-  border-radius: 30px;
-  backdrop-filter: blur(20px);
+  padding: 48px 36px;
+  background: rgba(255,255,255,0.11);
+  border-radius: 32px;
+  backdrop-filter: blur(22px);
   box-shadow:
-    0 0 40px rgba(140,120,255,0.35),
-    0 0 80px rgba(0,200,255,0.18);
+    0 0 50px rgba(255,140,180,0.35),
+    0 0 90px rgba(180,120,255,0.25);
   text-align: center;
   animation: popIn 1.6s ease forwards;
 }
 
 @keyframes popIn {
-  from { transform: scale(0.85); opacity: 0; }
+  from { transform: scale(0.88); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
 /* 标题 */
 h1 {
   font-size: 30px;
-  margin-bottom: 24px;
-  background: linear-gradient(90deg, #fbd3e9, #bbd2c5, #c2e9fb);
+  margin-bottom: 26px;
+  background: linear-gradient(90deg, #ffd1dc, #fbc8a4, #e0c3fc);
   background-size: 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientMove 8s infinite linear;
+  animation: gradientMove 10s infinite linear;
 }
 
 @keyframes gradientMove {
@@ -105,8 +104,8 @@ p {
   font-size: 16px;
   line-height: 2;
   opacity: 0;
-  animation: fadeText 2.2s ease forwards;
-  animation-delay: 0.8s;
+  animation: fadeText 2.4s ease forwards;
+  animation-delay: 0.9s;
 }
 
 @keyframes fadeText {
@@ -114,9 +113,17 @@ p {
 }
 
 .footer {
-  margin-top: 28px;
+  margin-top: 30px;
   font-size: 13px;
   opacity: 0.85;
+}
+
+/* 音乐提示 */
+.music-hint {
+  position: absolute;
+  bottom: 18px;
+  font-size: 12px;
+  opacity: 0.6;
 }
 </style>
 </head>
@@ -132,26 +139,65 @@ for (let i = 0; i < 45; i++) {
   star.className = "star";
   star.style.top = Math.random() * 100 + "%";
   star.style.left = Math.random() * 100 + "%";
-  star.style.animationDelay = Math.random() * 4 + "s";
+  star.style.animationDelay = Math.random() * 5 + "s";
   document.body.appendChild(star);
 }
 </script>
 
 <div class="card">
-  <h1>给 智敏</h1>
+  <h1>生日快乐，智敏</h1>
   <p>
-    今天不祝你“永远快乐”<br>
-    也不祝你“事事顺利”<br><br>
+    今天不说那些<br>
+    宏大的祝愿<br><br>
 
-    只祝你在不顺的时候<br>
-    不急着否定自己<br>
-    在安静的日子里<br>
-    依然知道自己值得被尊重
+    只希望你在这一岁里<br>
+    走得慢一点的时候<br>
+    不会被催促<br><br>
+
+    也有人愿意<br>
+    和你并肩站一会儿
   </p>
   <div class="footer">
-    又一年，世界如常，你亦如是
+    这一年，你值得被认真对待
   </div>
 </div>
+
+<div class="music-hint">
+  轻触屏幕，音乐会响起 🎵
+</div>
+
+<!-- 生日快乐歌（Web Audio） -->
+<script>
+let played = false;
+
+function playBirthday() {
+  if (played) return;
+  played = true;
+
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const notes = [
+    264, 264, 297, 264, 352, 330,
+    264, 264, 297, 264, 396, 352,
+    264, 264, 528, 440, 352, 330, 297,
+    466, 466, 440, 352, 396, 352
+  ];
+  let time = ctx.currentTime;
+
+  notes.forEach(freq => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.frequency.value = freq;
+    osc.type = "sine";
+    gain.gain.value = 0.06;
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(time);
+    osc.stop(time + 0.35);
+    time += 0.38;
+  });
+}
+
+document.addEventListener("click", playBirthday);
+</script>
 
 </body>
 </html>
