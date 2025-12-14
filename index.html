@@ -1,54 +1,112 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>生日快乐</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ffd1dc, #fff1f5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    }
-    .card {
-      background: white;
-      padding: 40px 30px;
-      border-radius: 18px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-      max-width: 360px;
-      text-align: center;
-    }
-    h1 {
-      color: #ff5c8a;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 16px;
-      line-height: 1.9;
-      color: #444;
-    }
-    .footer {
-      margin-top: 25px;
-      font-size: 13px;
-      color: #999;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>生日快乐</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #1d2671, #c33764);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* 背景星点 */
+.stars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255,255,255,0.8);
+  animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: .3; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-80px); opacity: .3; }
+}
+
+/* 玻璃卡片 */
+.card {
+  width: 90%;
+  max-width: 380px;
+  padding: 40px 30px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 24px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  text-align: center;
+  animation: fadeIn 1.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 18px;
+  background: linear-gradient(90deg, #ffe259, #ffa751);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.9;
+  opacity: 0;
+  animation: textFade 2s ease forwards;
+  animation-delay: 0.8s;
+}
+
+@keyframes textFade {
+  to { opacity: 1; }
+}
+
+.footer {
+  margin-top: 26px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+</style>
 </head>
+
 <body>
-  <div class="card">
-    <h1>生日快乐 🎂</h1>
-    <p>
-      愿你新的一岁<br>
-      心里有光，脚下有路<br>
-      不必迎合世界<br>
-      也被世界温柔对待
-    </p>
-    <div class="footer">
-      今天，只属于你 🌷
-    </div>
+
+<!-- 星点 -->
+<div class="stars">
+  <span style="top:20%; left:15%"></span>
+  <span style="top:40%; left:70%"></span>
+  <span style="top:65%; left:30%"></span>
+  <span style="top:80%; left:80%"></span>
+  <span style="top:50%; left:50%"></span>
+</div>
+
+<div class="card">
+  <h1>生日快乐 🎂</h1>
+  <p>
+    愿你新的一岁<br>
+    不被定义，不被催促<br>
+    有选择生活的自由<br>
+    也有被温柔拥抱的时刻
+  </p>
+  <div class="footer">
+    今天，世界为你停留 ✨
   </div>
+</div>
+
 </body>
 </html>
