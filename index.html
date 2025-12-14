@@ -6,138 +6,154 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
 }
 
-body {
-  height: 100vh;
-  background: radial-gradient(circle at top, #3a163f, #0b0012);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+body{
+  height:100vh;
+  background:radial-gradient(circle at top,#3b183f,#0a0012);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
 }
 
-/* 主旋转光环 */
-.bg::before, .bg::after {
-  content: "";
-  position: absolute;
-  width: 240%;
-  height: 240%;
-  background: conic-gradient(
+/* 旋转光幕 */
+.bg::before,.bg::after{
+  content:"";
+  position:absolute;
+  width:260%;
+  height:260%;
+  background:conic-gradient(
     from 0deg,
-    #ff8fb1,
+    #ff9ebc,
     #ffd6a5,
-    #cdb4db,
-    #a2d2ff,
-    #ff8fb1
+    #e0c3fc,
+    #bde0fe,
+    #ff9ebc
   );
-  animation: rotate 50s linear infinite;
-  opacity: 0.25;
+  animation:rotate 70s linear infinite;
+  opacity:.22;
 }
-
-.bg::after {
-  animation-duration: 80s;
-  opacity: 0.14;
+.bg::after{
+  animation-duration:110s;
+  opacity:.12;
 }
-
-@keyframes rotate {
-  to { transform: rotate(360deg); }
+@keyframes rotate{
+  to{transform:rotate(360deg);}
 }
 
 /* 星点 */
-.star {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: rgba(255,230,240,0.9);
-  border-radius: 50%;
-  animation: twinkle 6s infinite ease-in-out;
+.star{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:rgba(255,235,245,.9);
+  border-radius:50%;
+  animation:twinkle 7s infinite ease-in-out;
+}
+@keyframes twinkle{
+  50%{opacity:.25;transform:scale(.6);}
 }
 
-@keyframes twinkle {
-  50% { opacity: .25; transform: scale(0.6); }
+/* 流光丝带 */
+.ribbon{
+  position:absolute;
+  width:300px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#ffd1dc,transparent);
+  opacity:.4;
+  animation:slide 18s linear infinite;
+}
+@keyframes slide{
+  from{transform:translateX(-400px);}
+  to{transform:translateX(120vw);}
 }
 
-/* 漂浮光粒 */
-.particle {
-  position: absolute;
-  font-size: 18px;
-  opacity: 0.8;
-  animation: floatUp 14s linear infinite;
+/* 柔光粒子 */
+.glow{
+  position:absolute;
+  width:120px;
+  height:120px;
+  background:radial-gradient(circle,rgba(255,200,220,.35),transparent 70%);
+  animation:pulse 10s ease-in-out infinite;
+}
+@keyframes pulse{
+  50%{transform:scale(1.2);opacity:.5;}
 }
 
-@keyframes floatUp {
-  from { transform: translateY(100vh); opacity: 0; }
-  20% { opacity: .9; }
-  to { transform: translateY(-120px); opacity: 0; }
+/* 生日符号 */
+.particle{
+  position:absolute;
+  font-size:18px;
+  opacity:.85;
+  animation:floatUp 18s linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(100vh);opacity:0;}
+  20%{opacity:1;}
+  to{transform:translateY(-150px);opacity:0;}
 }
 
-/* 主卡片 */
-.card {
-  position: relative;
-  z-index: 2;
-  width: 92%;
-  max-width: 430px;
-  padding: 50px 38px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 34px;
-  backdrop-filter: blur(24px);
+/* 卡片 */
+.card{
+  position:relative;
+  z-index:2;
+  width:92%;
+  max-width:440px;
+  padding:54px 40px;
+  background:rgba(255,255,255,.13);
+  border-radius:36px;
+  backdrop-filter:blur(26px);
   box-shadow:
-    0 0 60px rgba(255,150,200,0.45),
-    0 0 120px rgba(180,140,255,0.35);
-  text-align: center;
-  animation: popIn 1.8s ease forwards;
+    0 0 70px rgba(255,160,210,.45),
+    0 0 140px rgba(190,150,255,.35);
+  text-align:center;
+  animation:popIn 2s ease forwards;
+}
+@keyframes popIn{
+  from{transform:scale(.85);opacity:0;}
+  to{transform:scale(1);opacity:1;}
 }
 
-@keyframes popIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+h1{
+  font-size:32px;
+  margin-bottom:30px;
+  background:linear-gradient(90deg,#ffd1dc,#ffe6a7,#e0c3fc);
+  background-size:300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:gradientMove 14s infinite linear;
+}
+@keyframes gradientMove{
+  to{background-position:300%;}
 }
 
-/* 标题 */
-h1 {
-  font-size: 32px;
-  margin-bottom: 28px;
-  background: linear-gradient(90deg, #ffd1dc, #ffe6a7, #e0c3fc);
-  background-size: 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientMove 12s infinite linear;
+p{
+  font-size:16px;
+  line-height:2.1;
+  opacity:0;
+  animation:fadeText 3s ease forwards;
+  animation-delay:1.2s;
+}
+@keyframes fadeText{to{opacity:1;}}
+
+.footer{
+  margin-top:34px;
+  font-size:13px;
+  opacity:.85;
 }
 
-@keyframes gradientMove {
-  to { background-position: 300%; }
-}
-
-p {
-  font-size: 16px;
-  line-height: 2.1;
-  opacity: 0;
-  animation: fadeText 2.6s ease forwards;
-  animation-delay: 1s;
-}
-
-@keyframes fadeText {
-  to { opacity: 1; }
-}
-
-.footer {
-  margin-top: 32px;
-  font-size: 13px;
-  opacity: 0.85;
-}
-
-.music-hint {
-  position: absolute;
-  bottom: 18px;
-  font-size: 12px;
-  opacity: 0.65;
+.music-hint{
+  position:absolute;
+  bottom:18px;
+  font-size:12px;
+  opacity:.65;
 }
 </style>
 </head>
@@ -148,24 +164,42 @@ p {
 
 <script>
 /* 星点 */
-for (let i = 0; i < 90; i++) {
-  const star = document.createElement("div");
-  star.className = "star";
-  star.style.top = Math.random() * 100 + "%";
-  star.style.left = Math.random() * 100 + "%";
-  star.style.animationDelay = Math.random() * 6 + "s";
-  document.body.appendChild(star);
+for(let i=0;i<120;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDelay=Math.random()*7+"s";
+  document.body.appendChild(s);
 }
 
-/* 漂浮生日粒子 */
-const emojis = ["🎂","🎉","✨","🕯️","🎈"];
-for (let i = 0; i < 30; i++) {
-  const p = document.createElement("div");
-  p.className = "particle";
-  p.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-  p.style.left = Math.random() * 100 + "%";
-  p.style.animationDelay = Math.random() * 14 + "s";
-  p.style.fontSize = 14 + Math.random() * 10 + "px";
+/* 流光丝带 */
+for(let i=0;i<6;i++){
+  const r=document.createElement("div");
+  r.className="ribbon";
+  r.style.top=Math.random()*100+"%";
+  r.style.animationDelay=Math.random()*18+"s";
+  document.body.appendChild(r);
+}
+
+/* 柔光 */
+for(let i=0;i<6;i++){
+  const g=document.createElement("div");
+  g.className="glow";
+  g.style.top=Math.random()*100+"%";
+  g.style.left=Math.random()*100+"%";
+  document.body.appendChild(g);
+}
+
+/* 生日粒子 */
+const emojis=["🎂","🎉","🎈","✨","🕯️"];
+for(let i=0;i<36;i++){
+  const p=document.createElement("div");
+  p.className="particle";
+  p.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+  p.style.left=Math.random()*100+"%";
+  p.style.fontSize=16+Math.random()*10+"px";
+  p.style.animationDelay=Math.random()*18+"s";
   document.body.appendChild(p);
 }
 </script>
@@ -173,59 +207,59 @@ for (let i = 0; i < 30; i++) {
 <div class="card">
   <h1>生日快乐，智敏</h1>
   <p>
-    今天不急着许愿<br>
-    也不用被祝福推着向前<br><br>
-
-    只希望这一岁的你<br>
-    有被认真放在心上的时刻<br>
-    也有让人愿意为你<br>
-    停下来庆祝的理由
+    今天不需要被定义<br>
+    也不用急着走向下一站<br><br>
+    只是想让你知道<br>
+    在这一年开始的时候<br>
+    有人愿意为你<br>
+    把灯光与音乐都准备好
   </p>
   <div class="footer">
-    这是一个，专门为你亮起的夜晚
+    愿这一岁，被认真对待
   </div>
 </div>
 
 <div class="music-hint">
-  轻触屏幕，生日歌会响起 🎶
+  轻触屏幕，钢琴声会响起 🎹
 </div>
 
 <script>
-/* 更慢、更长、更欢乐的生日快乐歌 */
-let started = false;
+/* 钢琴版生日快乐 */
+let playing=false;
+document.addEventListener("click",()=>{
+  if(playing) return;
+  playing=true;
 
-document.addEventListener("click", () => {
-  if (started) return;
-  started = true;
-
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const tempo = 0.55; // 更慢
-  const volume = 0.12; // 更大
-
-  const melody = [
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const melody=[
     264,264,297,264,352,330,
     264,264,297,264,396,352,
     264,264,528,440,352,330,297,
     466,466,440,352,396,352
   ];
 
-  function playLoop() {
-    let t = ctx.currentTime;
-    melody.forEach(freq => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = "triangle";
-      osc.frequency.value = freq;
-      gain.gain.value = volume;
-      osc.connect(gain).connect(ctx.destination);
-      osc.start(t);
-      osc.stop(t + tempo);
-      t += tempo + 0.1;
-    });
-    setTimeout(playLoop, melody.length * (tempo + 0.1) * 1000);
+  function pianoNote(freq,time){
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.type="sine";
+    osc.frequency.value=freq;
+    gain.gain.setValueAtTime(0.001,time);
+    gain.gain.exponentialRampToValueAtTime(0.18,time+0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001,time+1.2);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(time);
+    osc.stop(time+1.3);
   }
 
-  playLoop();
+  function play(){
+    let t=ctx.currentTime;
+    melody.forEach(f=>{
+      pianoNote(f,t);
+      t+=0.9;
+    });
+    setTimeout(play,melody.length*900);
+  }
+  play();
 });
 </script>
 
