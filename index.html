@@ -15,7 +15,7 @@
 
 body {
   height: 100vh;
-  background: radial-gradient(circle at top, #3b1d3f, #120012);
+  background: radial-gradient(circle at top, #3a163f, #0b0012);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -23,26 +23,27 @@ body {
   color: #fff;
 }
 
-/* 暧昧光环 */
+/* 主旋转光环 */
 .bg::before, .bg::after {
   content: "";
   position: absolute;
-  width: 220%;
-  height: 220%;
+  width: 240%;
+  height: 240%;
   background: conic-gradient(
     from 0deg,
-    #ff7aa2,
-    #ffd1a4,
-    #d6b3ff,
-    #ff7aa2
+    #ff8fb1,
+    #ffd6a5,
+    #cdb4db,
+    #a2d2ff,
+    #ff8fb1
   );
-  animation: rotate 36s linear infinite;
-  opacity: 0.22;
+  animation: rotate 50s linear infinite;
+  opacity: 0.25;
 }
 
 .bg::after {
-  animation-duration: 55s;
-  opacity: 0.12;
+  animation-duration: 80s;
+  opacity: 0.14;
 }
 
 @keyframes rotate {
@@ -54,46 +55,60 @@ body {
   position: absolute;
   width: 3px;
   height: 3px;
-  background: rgba(255,220,230,0.9);
+  background: rgba(255,230,240,0.9);
   border-radius: 50%;
-  animation: twinkle 5s infinite ease-in-out;
+  animation: twinkle 6s infinite ease-in-out;
 }
 
 @keyframes twinkle {
-  50% { opacity: .3; transform: scale(0.6); }
+  50% { opacity: .25; transform: scale(0.6); }
 }
 
-/* 卡片 */
+/* 漂浮光粒 */
+.particle {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0.8;
+  animation: floatUp 14s linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 0; }
+  20% { opacity: .9; }
+  to { transform: translateY(-120px); opacity: 0; }
+}
+
+/* 主卡片 */
 .card {
   position: relative;
   z-index: 2;
   width: 92%;
-  max-width: 420px;
-  padding: 48px 36px;
-  background: rgba(255,255,255,0.11);
-  border-radius: 32px;
-  backdrop-filter: blur(22px);
+  max-width: 430px;
+  padding: 50px 38px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 34px;
+  backdrop-filter: blur(24px);
   box-shadow:
-    0 0 50px rgba(255,140,180,0.35),
-    0 0 90px rgba(180,120,255,0.25);
+    0 0 60px rgba(255,150,200,0.45),
+    0 0 120px rgba(180,140,255,0.35);
   text-align: center;
-  animation: popIn 1.6s ease forwards;
+  animation: popIn 1.8s ease forwards;
 }
 
 @keyframes popIn {
-  from { transform: scale(0.88); opacity: 0; }
+  from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
 /* 标题 */
 h1 {
-  font-size: 30px;
-  margin-bottom: 26px;
-  background: linear-gradient(90deg, #ffd1dc, #fbc8a4, #e0c3fc);
+  font-size: 32px;
+  margin-bottom: 28px;
+  background: linear-gradient(90deg, #ffd1dc, #ffe6a7, #e0c3fc);
   background-size: 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientMove 10s infinite linear;
+  animation: gradientMove 12s infinite linear;
 }
 
 @keyframes gradientMove {
@@ -102,10 +117,10 @@ h1 {
 
 p {
   font-size: 16px;
-  line-height: 2;
+  line-height: 2.1;
   opacity: 0;
-  animation: fadeText 2.4s ease forwards;
-  animation-delay: 0.9s;
+  animation: fadeText 2.6s ease forwards;
+  animation-delay: 1s;
 }
 
 @keyframes fadeText {
@@ -113,17 +128,16 @@ p {
 }
 
 .footer {
-  margin-top: 30px;
+  margin-top: 32px;
   font-size: 13px;
   opacity: 0.85;
 }
 
-/* 音乐提示 */
 .music-hint {
   position: absolute;
   bottom: 18px;
   font-size: 12px;
-  opacity: 0.6;
+  opacity: 0.65;
 }
 </style>
 </head>
@@ -132,71 +146,87 @@ p {
 
 <div class="bg"></div>
 
-<!-- 星点生成 -->
 <script>
-for (let i = 0; i < 45; i++) {
+/* 星点 */
+for (let i = 0; i < 90; i++) {
   const star = document.createElement("div");
   star.className = "star";
   star.style.top = Math.random() * 100 + "%";
   star.style.left = Math.random() * 100 + "%";
-  star.style.animationDelay = Math.random() * 5 + "s";
+  star.style.animationDelay = Math.random() * 6 + "s";
   document.body.appendChild(star);
+}
+
+/* 漂浮生日粒子 */
+const emojis = ["🎂","🎉","✨","🕯️","🎈"];
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement("div");
+  p.className = "particle";
+  p.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  p.style.left = Math.random() * 100 + "%";
+  p.style.animationDelay = Math.random() * 14 + "s";
+  p.style.fontSize = 14 + Math.random() * 10 + "px";
+  document.body.appendChild(p);
 }
 </script>
 
 <div class="card">
   <h1>生日快乐，智敏</h1>
   <p>
-    今天不说那些<br>
-    宏大的祝愿<br><br>
+    今天不急着许愿<br>
+    也不用被祝福推着向前<br><br>
 
-    只希望你在这一岁里<br>
-    走得慢一点的时候<br>
-    不会被催促<br><br>
-
-    也有人愿意<br>
-    和你并肩站一会儿
+    只希望这一岁的你<br>
+    有被认真放在心上的时刻<br>
+    也有让人愿意为你<br>
+    停下来庆祝的理由
   </p>
   <div class="footer">
-    这一年，你值得被认真对待
+    这是一个，专门为你亮起的夜晚
   </div>
 </div>
 
 <div class="music-hint">
-  轻触屏幕，音乐会响起 🎵
+  轻触屏幕，生日歌会响起 🎶
 </div>
 
-<!-- 生日快乐歌（Web Audio） -->
 <script>
-let played = false;
+/* 更慢、更长、更欢乐的生日快乐歌 */
+let started = false;
 
-function playBirthday() {
-  if (played) return;
-  played = true;
+document.addEventListener("click", () => {
+  if (started) return;
+  started = true;
 
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const notes = [
-    264, 264, 297, 264, 352, 330,
-    264, 264, 297, 264, 396, 352,
-    264, 264, 528, 440, 352, 330, 297,
-    466, 466, 440, 352, 396, 352
+  const tempo = 0.55; // 更慢
+  const volume = 0.12; // 更大
+
+  const melody = [
+    264,264,297,264,352,330,
+    264,264,297,264,396,352,
+    264,264,528,440,352,330,297,
+    466,466,440,352,396,352
   ];
-  let time = ctx.currentTime;
 
-  notes.forEach(freq => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.frequency.value = freq;
-    osc.type = "sine";
-    gain.gain.value = 0.06;
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(time);
-    osc.stop(time + 0.35);
-    time += 0.38;
-  });
-}
+  function playLoop() {
+    let t = ctx.currentTime;
+    melody.forEach(freq => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "triangle";
+      osc.frequency.value = freq;
+      gain.gain.value = volume;
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + tempo);
+      t += tempo + 0.1;
+    });
+    setTimeout(playLoop, melody.length * (tempo + 0.1) * 1000);
+  }
 
-document.addEventListener("click", playBirthday);
+  playLoop();
+});
 </script>
 
 </body>
