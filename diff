@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>生日快乐</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffd1dc, #fff1f5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      max-width: 360px;
+      text-align: center;
+    }
+    h1 {
+      color: #ff5c8a;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #444;
+    }
+    .footer {
+      margin-top: 25px;
+      font-size: 13px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>生日快乐 🎂</h1>
+    <p>
+      愿你新的一岁<br>
+      心里有光，脚下有路<br>
+      不必迎合世界<br>
+      也被世界温柔对待
+    </p>
+    <div class="footer">
+      今天，只属于你 🌷
+    </div>
+  </div>
+</body>
+</html>
