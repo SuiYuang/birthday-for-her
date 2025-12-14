@@ -2,146 +2,134 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>给智敏</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智敏 · 生日</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;}
 body{
   height:100vh;
-  background:radial-gradient(circle at top,#3b183f,#0a0012);
   overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:
+    radial-gradient(circle at 50% 20%, #5a235f, #120016 70%);
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
   color:#fff;
 }
 
-/* 旋转光幕 */
-.bg::before,.bg::after{
-  content:"";
+/* ===== 深空背景 ===== */
+.space{
   position:absolute;
-  width:260%;
-  height:260%;
-  background:conic-gradient(
-    from 0deg,
-    #ff9ebc,
-    #ffd6a5,
-    #e0c3fc,
-    #bde0fe,
-    #ff9ebc
-  );
-  animation:rotate 70s linear infinite;
-  opacity:.22;
+  inset:0;
+  overflow:hidden;
 }
-.bg::after{
-  animation-duration:110s;
-  opacity:.12;
+.nebula{
+  position:absolute;
+  width:140vw;
+  height:140vw;
+  background:
+    radial-gradient(circle,
+      rgba(255,190,220,.18),
+      rgba(160,120,255,.08),
+      transparent 70%);
+  animation:nebulaMove 90s linear infinite;
 }
-@keyframes rotate{
+@keyframes nebulaMove{
   to{transform:rotate(360deg);}
 }
 
-/* 星点 */
+/* ===== 星云粒子 ===== */
 .star{
   position:absolute;
-  width:3px;
-  height:3px;
-  background:rgba(255,235,245,.9);
   border-radius:50%;
-  animation:twinkle 7s infinite ease-in-out;
+  background:rgba(255,240,250,.9);
+  animation:drift linear infinite;
 }
-@keyframes twinkle{
-  50%{opacity:.25;transform:scale(.6);}
+@keyframes drift{
+  to{transform:translateY(-120vh);}
 }
 
-/* 流光丝带 */
-.ribbon{
+/* ===== 光晶体 ===== */
+.prism{
   position:absolute;
-  width:300px;
-  height:2px;
-  background:linear-gradient(90deg,transparent,#ffd1dc,transparent);
-  opacity:.4;
-  animation:slide 18s linear infinite;
+  width:140px;
+  height:140px;
+  background:linear-gradient(
+    135deg,
+    rgba(255,220,235,.25),
+    rgba(180,140,255,.15),
+    rgba(255,220,235,.25)
+  );
+  clip-path:polygon(50% 0, 100% 30%, 80% 100%, 20% 100%, 0 30%);
+  animation:prismRotate 60s linear infinite;
 }
-@keyframes slide{
-  from{transform:translateX(-400px);}
-  to{transform:translateX(120vw);}
-}
-
-/* 柔光粒子 */
-.glow{
-  position:absolute;
-  width:120px;
-  height:120px;
-  background:radial-gradient(circle,rgba(255,200,220,.35),transparent 70%);
-  animation:pulse 10s ease-in-out infinite;
-}
-@keyframes pulse{
-  50%{transform:scale(1.2);opacity:.5;}
+@keyframes prismRotate{
+  to{transform:rotate(360deg);}
 }
 
-/* 生日符号 */
-.particle{
+/* ===== 生日粒子 ===== */
+.symbol{
   position:absolute;
   font-size:18px;
   opacity:.85;
-  animation:floatUp 18s linear infinite;
+  animation:floatSymbol 24s linear infinite;
 }
-@keyframes floatUp{
-  from{transform:translateY(100vh);opacity:0;}
+@keyframes floatSymbol{
+  from{transform:translateY(110vh);opacity:0;}
   20%{opacity:1;}
-  to{transform:translateY(-150px);opacity:0;}
+  to{transform:translateY(-140px);opacity:0;}
 }
 
-/* 卡片 */
+/* ===== 卡片 ===== */
 .card{
-  position:relative;
-  z-index:2;
-  width:92%;
-  max-width:440px;
-  padding:54px 40px;
-  background:rgba(255,255,255,.13);
-  border-radius:36px;
-  backdrop-filter:blur(26px);
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:88%;
+  max-width:420px;
+  padding:56px 34px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(28px);
+  border-radius:40px;
   box-shadow:
-    0 0 70px rgba(255,160,210,.45),
-    0 0 140px rgba(190,150,255,.35);
+    0 0 90px rgba(255,170,220,.55),
+    0 0 180px rgba(190,150,255,.45);
   text-align:center;
-  animation:popIn 2s ease forwards;
+  animation:cardIn 2.2s ease forwards;
 }
-@keyframes popIn{
-  from{transform:scale(.85);opacity:0;}
-  to{transform:scale(1);opacity:1;}
+@keyframes cardIn{
+  from{opacity:0;transform:translate(-50%,-55%) scale(.85);}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1);}
 }
 
+/* ===== 标题 ===== */
 h1{
   font-size:32px;
-  margin-bottom:30px;
-  background:linear-gradient(90deg,#ffd1dc,#ffe6a7,#e0c3fc);
-  background-size:300%;
+  margin-bottom:28px;
+  background:linear-gradient(
+    120deg,
+    #ffd1dc,
+    #ffe6a7,
+    #e0c3fc,
+    #ffd1dc
+  );
+  background-size:400%;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:gradientMove 14s infinite linear;
+  animation:spectrum 18s linear infinite;
 }
-@keyframes gradientMove{
-  to{background-position:300%;}
+@keyframes spectrum{
+  to{background-position:400%;}
 }
 
 p{
   font-size:16px;
   line-height:2.1;
   opacity:0;
-  animation:fadeText 3s ease forwards;
+  animation:textIn 3s ease forwards;
   animation-delay:1.2s;
 }
-@keyframes fadeText{to{opacity:1;}}
+@keyframes textIn{to{opacity:1;}}
 
 .footer{
   margin-top:34px;
@@ -149,115 +137,112 @@ p{
   opacity:.85;
 }
 
-.music-hint{
+/* ===== 音乐提示 ===== */
+.hint{
   position:absolute;
   bottom:18px;
+  width:100%;
+  text-align:center;
   font-size:12px;
-  opacity:.65;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<div class="space">
+  <div class="nebula"></div>
+</div>
 
 <script>
-/* 星点 */
-for(let i=0;i<120;i++){
+/* 星云粒子 */
+for(let i=0;i<160;i++){
   const s=document.createElement("div");
   s.className="star";
-  s.style.top=Math.random()*100+"%";
+  const size=Math.random()*2+1;
+  s.style.width=s.style.height=size+"px";
   s.style.left=Math.random()*100+"%";
-  s.style.animationDelay=Math.random()*7+"s";
+  s.style.top=Math.random()*100+"%";
+  s.style.animationDuration=20+Math.random()*40+"s";
   document.body.appendChild(s);
 }
 
-/* 流光丝带 */
-for(let i=0;i<6;i++){
-  const r=document.createElement("div");
-  r.className="ribbon";
-  r.style.top=Math.random()*100+"%";
-  r.style.animationDelay=Math.random()*18+"s";
-  document.body.appendChild(r);
-}
-
-/* 柔光 */
-for(let i=0;i<6;i++){
-  const g=document.createElement("div");
-  g.className="glow";
-  g.style.top=Math.random()*100+"%";
-  g.style.left=Math.random()*100+"%";
-  document.body.appendChild(g);
-}
-
-/* 生日粒子 */
-const emojis=["🎂","🎉","🎈","✨","🕯️"];
-for(let i=0;i<36;i++){
+/* 光晶体 */
+for(let i=0;i<5;i++){
   const p=document.createElement("div");
-  p.className="particle";
-  p.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+  p.className="prism";
+  p.style.top=Math.random()*100+"%";
   p.style.left=Math.random()*100+"%";
-  p.style.fontSize=16+Math.random()*10+"px";
-  p.style.animationDelay=Math.random()*18+"s";
+  p.style.animationDelay=Math.random()*30+"s";
   document.body.appendChild(p);
+}
+
+/* 生日符号 */
+const icons=["🎂","🎉","🎈","🕯️","✨"];
+for(let i=0;i<42;i++){
+  const s=document.createElement("div");
+  s.className="symbol";
+  s.innerText=icons[Math.floor(Math.random()*icons.length)];
+  s.style.left=Math.random()*100+"%";
+  s.style.fontSize=16+Math.random()*12+"px";
+  s.style.animationDelay=Math.random()*24+"s";
+  document.body.appendChild(s);
 }
 </script>
 
 <div class="card">
   <h1>生日快乐，智敏</h1>
   <p>
-    今天不需要被定义<br>
-    也不用急着走向下一站<br><br>
-    只是想让你知道<br>
-    在这一年开始的时候<br>
-    有人愿意为你<br>
-    把灯光与音乐都准备好
+    今天不需要计划未来<br>
+    也不必回应世界的期待<br><br>
+    这一刻<br>
+    只是属于你<br><br>
+    愿时间对你<br>
+    一直留有温柔
   </p>
-  <div class="footer">
-    愿这一岁，被认真对待
-  </div>
+  <div class="footer">这一岁，被认真照亮</div>
 </div>
 
-<div class="music-hint">
-  轻触屏幕，钢琴声会响起 🎹
-</div>
+<div class="hint">轻触屏幕，钢琴会为你奏响 🎹</div>
 
 <script>
-/* 钢琴版生日快乐 */
-let playing=false;
+/* ===== 复杂钢琴演奏 ===== */
+let started=false;
 document.addEventListener("click",()=>{
-  if(playing) return;
-  playing=true;
+  if(started) return;
+  started=true;
 
   const ctx=new (window.AudioContext||window.webkitAudioContext)();
-  const melody=[
-    264,264,297,264,352,330,
-    264,264,297,264,396,352,
-    264,264,528,440,352,330,297,
-    466,466,440,352,396,352
-  ];
 
-  function pianoNote(freq,time){
+  const melody=[264,297,330,352,396,352,330,297];
+  const bass=[132,176,198,176];
+
+  function piano(freq,time,dur,vol){
     const osc=ctx.createOscillator();
     const gain=ctx.createGain();
-    osc.type="sine";
+    osc.type="triangle";
     osc.frequency.value=freq;
     gain.gain.setValueAtTime(0.001,time);
-    gain.gain.exponentialRampToValueAtTime(0.18,time+0.05);
-    gain.gain.exponentialRampToValueAtTime(0.001,time+1.2);
+    gain.gain.exponentialRampToValueAtTime(vol,time+0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001,time+dur);
     osc.connect(gain).connect(ctx.destination);
     osc.start(time);
-    osc.stop(time+1.3);
+    osc.stop(time+dur+0.1);
   }
 
   function play(){
     let t=ctx.currentTime;
     melody.forEach(f=>{
-      pianoNote(f,t);
-      t+=0.9;
+      piano(f,t,1.8,0.22);
+      t+=1.2;
     });
-    setTimeout(play,melody.length*900);
+    let b=ctx.currentTime;
+    bass.forEach(f=>{
+      piano(f,b,3.6,0.28);
+      b+=2.4;
+    });
+    setTimeout(play,melody.length*1200);
   }
   play();
 });
