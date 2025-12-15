@@ -15,7 +15,7 @@ body{
   background:#0b0e1a;
 }
 
-/* ===== 强流体背景 ===== */
+/* ===== 流体背景 ===== */
 .fluid{
   position:absolute;
   width:90vmax;
@@ -30,16 +30,14 @@ body{
     rgba(160,110,130,.85),
     rgba(160,110,130,.35),
     transparent 65%);
-  top:-30%;
-  left:-20%;
+  top:-30%; left:-20%;
 }
 .fluid.two{
   background:radial-gradient(circle,
     rgba(120,90,180,.8),
     rgba(120,90,180,.3),
     transparent 65%);
-  bottom:-35%;
-  right:-20%;
+  bottom:-35%; right:-20%;
   animation-duration:38s;
 }
 .fluid.three{
@@ -47,8 +45,7 @@ body{
     rgba(70,110,190,.7),
     rgba(70,110,190,.25),
     transparent 70%);
-  top:10%;
-  left:45%;
+  top:10%; left:45%;
   animation-duration:44s;
 }
 .fluid.four{
@@ -56,18 +53,8 @@ body{
     rgba(120,70,90,.75),
     rgba(120,70,90,.28),
     transparent 68%);
-  bottom:5%;
-  left:10%;
+  bottom:5%; left:10%;
   animation-duration:36s;
-}
-.fluid.five{
-  background:radial-gradient(circle,
-    rgba(40,70,140,.65),
-    rgba(40,70,140,.22),
-    transparent 70%);
-  top:-15%;
-  right:20%;
-  animation-duration:42s;
 }
 
 @keyframes drift{
@@ -75,17 +62,38 @@ body{
   to{transform:translate(180px,-140px) scale(1.2);}
 }
 
-/* ===== 星点（更少，衬托流体） ===== */
-.star{
+/* ===== 烛光粒子（生日感） ===== */
+.spark{
   position:absolute;
-  width:2px;height:2px;
-  background:rgba(255,240,250,.45);
+  width:4px;height:4px;
+  background:rgba(255,210,170,.8);
   border-radius:50%;
-  animation:driftStar linear infinite;
+  box-shadow:0 0 12px rgba(255,200,150,.9);
+  animation:floatUp linear infinite, glow 2.8s ease-in-out infinite;
 }
-@keyframes driftStar{to{transform:translateY(-130vh);}}
+@keyframes floatUp{
+  to{transform:translateY(-120vh);}
+}
+@keyframes glow{
+  0%,100%{opacity:.4;}
+  50%{opacity:1;}
+}
 
-/* ===== 深柔玻璃卡片 ===== */
+/* ===== 抽象庆祝光弧 ===== */
+.arc{
+  position:absolute;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  border:1px solid rgba(255,200,180,.25);
+  filter:blur(1px);
+  animation:arcMove 26s linear infinite;
+}
+@keyframes arcMove{
+  to{transform:rotate(360deg) translateX(80px) rotate(-360deg);}
+}
+
+/* ===== 深色玻璃卡片 ===== */
 .card{
   position:absolute;
   left:50%;top:50%;
@@ -93,12 +101,11 @@ body{
   width:70%;
   max-width:336px;
   padding:44px 26px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(95,75,95,.6),
-      rgba(35,25,55,.6)
-    );
+  background:linear-gradient(
+    180deg,
+    rgba(95,75,95,.6),
+    rgba(35,25,55,.6)
+  );
   backdrop-filter:blur(40px);
   border-radius:38px;
   box-shadow:
@@ -149,27 +156,56 @@ h1{
   font-size:12px;
   opacity:.4;
 }
+
+/* ===== 生日锚点文字 ===== */
+.birthday-mark{
+  position:absolute;
+  top:18%;
+  width:100%;
+  text-align:center;
+  font-size:12px;
+  letter-spacing:4px;
+  opacity:0;
+  animation:mark 18s ease-in-out infinite;
+}
+@keyframes mark{
+  0%,70%{opacity:0;}
+  80%{opacity:.25;}
+  100%{opacity:0;}
+}
 </style>
 </head>
 
 <body>
 
-<!-- 流体层 -->
+<!-- 流体 -->
 <div class="fluid one"></div>
 <div class="fluid two"></div>
 <div class="fluid three"></div>
 <div class="fluid four"></div>
-<div class="fluid five"></div>
+
+<!-- 生日锚点 -->
+<div class="birthday-mark">TODAY · FOR YOU</div>
 
 <script>
-/* 星点（减少数量） */
-for(let i=0;i<50;i++){
+/* 烛光粒子 */
+for(let i=0;i<28;i++){
   const s=document.createElement("div");
-  s.className="star";
+  s.className="spark";
   s.style.left=Math.random()*100+"%";
-  s.style.top=Math.random()*100+"%";
-  s.style.animationDuration=60+Math.random()*80+"s";
+  s.style.bottom="-10%";
+  s.style.animationDuration=40+Math.random()*40+"s";
   document.body.appendChild(s);
+}
+
+/* 抽象光弧 */
+for(let i=0;i<3;i++){
+  const a=document.createElement("div");
+  a.className="arc";
+  a.style.left=Math.random()*100+"%";
+  a.style.top=Math.random()*100+"%";
+  a.style.animationDuration=22+Math.random()*20+"s";
+  document.body.appendChild(a);
 }
 </script>
 
@@ -190,7 +226,7 @@ for(let i=0;i<50;i++){
 
 <div class="hint">轻触屏幕，音乐将开始 🎹</div>
 
-<!-- 🎹 音乐：完全保持不变 -->
+<!-- 🎹 音乐：保持原样（真实钢琴） -->
 <script>
 let started=false;
 document.addEventListener("click",()=>{
@@ -226,133 +262,6 @@ document.addEventListener("click",()=>{
     gain.gain.setValueAtTime(0.001,time);
     gain.gain.exponentialRampToValueAtTime(v,time+0.02);
     gain.gain.exponentialRampToValueAtTime(0.001,time+1.5);
-
-    main.connect(gain);
-    over.connect(gain);
-    gain.connect(convolver);
-
-    main.start(time);
-    over.start(time);
-    main.stop(time+2.4);
-    over.stop(time+2.4);
-  }
-
-  function play(){
-    let t=ctx.currentTime;
-    melody.forEach(f=>{
-      piano(f,t);
-      t+=0.85+Math.random()*0.18;
-    });
-    setTimeout(play,melody.length*900);
-  }
-  play();
-});
-</script>
-
-</body>
-</html>  transform:translateY(8px);
-  animation:lineIn 1.8s ease forwards;
-}
-@keyframes lineIn{to{opacity:1;transform:translateY(0);}}
-
-/* 页脚 */
-.footer{
-  margin-top:30px;
-  font-size:10.5px;
-  opacity:0;
-  animation:lineIn 2s ease forwards;
-  animation-delay:7.2s;
-}
-
-.hint{
-  position:absolute;
-  bottom:18px;
-  width:100%;
-  text-align:center;
-  font-size:12px;
-  opacity:.45;
-}
-</style>
-</head>
-
-<body>
-
-<!-- 流体背景层 -->
-<div class="fluid one"></div>
-<div class="fluid two"></div>
-<div class="fluid three"></div>
-
-<script>
-/* 星点 */
-for(let i=0;i<90;i++){
-  const s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"%";
-  s.style.top=Math.random()*100+"%";
-  s.style.animationDuration=40+Math.random()*60+"s";
-  document.body.appendChild(s);
-}
-</script>
-
-<div class="card">
-  <h1>生日快乐，智敏</h1>
-
-  <div class="line" style="animation-delay:1.4s">今天不需要计划未来</div>
-  <div class="line" style="animation-delay:2.6s">也不必回应世界的期待</div>
-  <br>
-  <div class="line" style="animation-delay:3.8s">这一刻</div>
-  <div class="line" style="animation-delay:4.8s">只是属于你</div>
-  <br>
-  <div class="line" style="animation-delay:6s">愿时间对你</div>
-  <div class="line" style="animation-delay:7s">一直留有温柔</div>
-
-  <div class="footer">这一岁，被认真照亮</div>
-</div>
-
-<div class="hint">轻触屏幕，音乐将开始 🎹</div>
-
-<!-- 🎹 音乐：完全保持不变（真实钢琴版） -->
-<script>
-let started=false;
-document.addEventListener("click",()=>{
-  if(started) return;
-  started=true;
-
-  const ctx=new (window.AudioContext||window.webkitAudioContext)();
-
-  const convolver=ctx.createConvolver();
-  const rate=ctx.sampleRate;
-  const len=rate*2.8;
-  const ir=ctx.createBuffer(2,len,rate);
-  for(let c=0;c<2;c++){
-    const d=ir.getChannelData(c);
-    for(let i=0;i<len;i++){
-      d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2);
-    }
-  }
-  convolver.buffer=ir;
-  convolver.connect(ctx.destination);
-
-  const melody=[
-    264,264,297,264,352,330,
-    264,264,297,264,396,352,
-    264,264,528,440,352,330,297,
-    466,466,440,352,396,352
-  ];
-
-  function piano(freq,time){
-    const main=ctx.createOscillator();
-    const over=ctx.createOscillator();
-    const gain=ctx.createGain();
-    main.type="triangle";
-    over.type="sine";
-    main.frequency.value=freq;
-    over.frequency.value=freq*2;
-
-    const v=0.22+Math.random()*0.06;
-    gain.gain.setValueAtTime(0.001,time);
-    gain.gain.exponentialRampToValueAtTime(v,time+0.02);
-    gain.gain.exponentialRampToValueAtTime(0.001,time+1.4+Math.random()*0.3);
 
     main.connect(gain);
     over.connect(gain);
