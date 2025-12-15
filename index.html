@@ -4,13 +4,9 @@
 <meta charset="UTF-8">
 <title>智敏</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{
-  height:100%;
-  scroll-behavior:smooth;
-}
+html,body{height:100%;}
 body{
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
   background:#0a0b14;
@@ -18,7 +14,7 @@ body{
   overflow-x:hidden;
 }
 
-/* ===== 页面结构 ===== */
+/* ===== section ===== */
 section{
   height:100vh;
   position:relative;
@@ -27,68 +23,45 @@ section{
 
 /* ===== 封面 ===== */
 .cover{
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
   flex-direction:column;
+  transition:opacity .6s ease, transform .6s ease, filter .6s ease;
+  z-index:10;
 }
-
+.cover.hide{
+  opacity:0;
+  transform:scale(.94) translateY(-30px);
+  filter:blur(8px);
+  pointer-events:none;
+}
 .cover-fluid{
   position:absolute;
   width:120vmax;
   height:120vmax;
   filter:blur(70px);
-  background:radial-gradient(circle,
-    rgba(150,100,120,.35),
-    rgba(110,90,170,.25),
-    transparent 70%);
+  background:radial-gradient(circle, rgba(150,100,120,.35), rgba(110,90,170,.25), transparent 70%);
   animation:coverDrift 30s ease-in-out infinite alternate;
 }
-@keyframes coverDrift{
-  to{transform:translate(160px,-140px) scale(1.1);}
-}
-
+@keyframes coverDrift{to{transform:translate(160px,-140px) scale(1.1);}}
 .cover-title{
-  position:relative;
   font-size:22px;
   letter-spacing:2px;
   margin-bottom:14px;
   background:linear-gradient(120deg,#f5c6d4,#e6d9ff,#f5c6d4);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:breath 5s ease-in-out infinite;
 }
-@keyframes breath{
-  50%{opacity:.65;}
-}
-
 .cover-hint{
   font-size:11px;
   opacity:.4;
   animation:floatHint 2.8s ease-in-out infinite;
 }
-@keyframes floatHint{
-  50%{transform:translateY(6px);}
-}
+@keyframes floatHint{50%{transform:translateY(6px);}}
 
-/* ===== 光线衔接 ===== */
-.transition-light{
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle,
-    rgba(255,230,240,.35),
-    rgba(255,230,240,.12),
-    transparent 70%);
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .8s ease;
-  z-index:999;
-}
-.transition-light.show{
-  opacity:1;
-}
-
-/* ===== 正文流体背景 ===== */
+/* ===== 正文背景 ===== */
 .fluid{
   position:absolute;
   width:95vmax;
@@ -98,77 +71,57 @@ section{
   animation:drift 40s ease-in-out infinite alternate;
 }
 .fluid.one{
-  background:radial-gradient(circle,
-    rgba(150,100,120,.85),
-    rgba(150,100,120,.25),
-    transparent 70%);
+  background:radial-gradient(circle, rgba(150,100,120,.85), rgba(150,100,120,.25), transparent 70%);
   top:-35%; left:-25%;
 }
 .fluid.two{
-  background:radial-gradient(circle,
-    rgba(110,90,170,.8),
-    rgba(110,90,170,.28),
-    transparent 70%);
+  background:radial-gradient(circle, rgba(110,90,170,.8), rgba(110,90,170,.28), transparent 70%);
   bottom:-40%; right:-30%;
-  animation-duration:46s;
 }
 .fluid.three{
-  background:radial-gradient(circle,
-    rgba(90,120,190,.7),
-    rgba(90,120,190,.22),
-    transparent 72%);
+  background:radial-gradient(circle, rgba(90,120,190,.7), rgba(90,120,190,.22), transparent 72%);
   top:15%; left:50%;
-  animation-duration:52s;
 }
-@keyframes drift{
-  to{transform:translate(180px,-160px) scale(1.15);}
-}
+@keyframes drift{to{transform:translate(180px,-160px) scale(1.15);}}
 
-/* ===== 烛光粒 ===== */
+/* ===== 星星 ===== */
 .spark{
-  position:absolute;
+  position:fixed;
+  bottom:-12vh;
   width:3px;height:3px;
   background:rgba(255,215,185,.75);
   border-radius:50%;
   box-shadow:0 0 10px rgba(255,200,160,.8);
   animation:floatUp linear infinite, glow 3s ease-in-out infinite;
+  pointer-events:none;
+  z-index:2;
 }
 @keyframes floatUp{to{transform:translateY(-120vh);}}
 @keyframes glow{50%{opacity:1;}}
 
-/* ===== 卡片（玻璃·深色柔和） ===== */
+/* ===== 卡片 ===== */
 .card{
   position:absolute;
   left:50%;top:50%;
   width:78%;
   max-width:320px;
   padding:40px 22px;
-  background:linear-gradient(
-    180deg,
-    rgba(70,60,90,.55),
-    rgba(28,24,44,.55)
-  );
+  background:linear-gradient(180deg, rgba(70,60,90,.55), rgba(28,24,44,.55));
   backdrop-filter:blur(36px);
   border-radius:32px;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.05),
-    0 40px 120px rgba(0,0,0,.7);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 40px 120px rgba(0,0,0,.7);
   text-align:center;
-
-  /* 初始隐藏 */
   opacity:0;
   transform:translate(-50%,-48%) scale(.96);
 }
-
-/* 卡片呼吸预热 */
-.card.warmup{
-  animation:cardWarm .55s ease forwards;
+.card.show{animation:cardIn .6s ease forwards;}
+@keyframes cardIn{to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
+.card.fadeOut{
+  animation:fadeOutCard 2s ease forwards;
 }
-@keyframes cardWarm{
-  to{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
-  }
+@keyframes fadeOutCard{
+  0%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1);}
 }
 
 /* ===== 文本 ===== */
@@ -179,97 +132,109 @@ h1{
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
-.text{
-  font-size:12px;
-  line-height:2.1;
-}
-.char{
-  opacity:0;
-  animation:charIn .6s ease forwards;
-}
+.text{font-size:12px;line-height:2.1;}
+.char{opacity:0;animation:charIn .6s ease forwards;}
 @keyframes charIn{to{opacity:1;}}
+.footer{margin-top:24px;font-size:10px;opacity:.6;}
 
-.footer{
-  margin-top:24px;
-  font-size:10px;
-  opacity:.6;
-}
-
-.hint{
-  position:absolute;
-  bottom:16px;
+/* ===== 底部音乐提示 ===== */
+.music-hint{
+  position:fixed;
+  bottom:14px;
   width:100%;
   text-align:center;
   font-size:11px;
+  letter-spacing:1px;
   opacity:.35;
+  animation:hintBreath 3s ease-in-out infinite;
+  transition:opacity 1.2s ease;
+  pointer-events:none;
+  z-index:5;
+}
+.music-hint.hide{opacity:0;}
+@keyframes hintBreath{50%{opacity:.6;}}
+
+/* ===== 火焰光晕 ===== */
+.flame-glow{
+  position:absolute;
+  left:50%; bottom:20%;
+  transform:translateX(-50%);
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,220,100,0.9), rgba(255,140,0,0.6), transparent 70%);
+  opacity:0;
+  z-index:6;
+  filter:blur(30px);
+  transition:opacity 2s ease;
+  animation:flameFlicker 0.3s infinite alternate;
+}
+@keyframes flameFlicker{
+  0%{transform:translateX(-50%) translateY(0) scale(1); opacity:0.85;}
+  25%{transform:translateX(-51%) translateY(-2px) scale(1.05); opacity:0.95;}
+  50%{transform:translateX(-49%) translateY(1px) scale(0.97); opacity:0.9;}
+  75%{transform:translateX(-50%) translateY(-1px) scale(1.08); opacity:1;}
+  100%{transform:translateX(-50%) translateY(0) scale(1); opacity:0.88;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="transition-light" id="light"></div>
-
-<!-- 封面 -->
-<section class="cover">
+<section class="cover" id="cover">
   <div class="cover-fluid"></div>
-  <div class="cover-title">这一页，被好好留着</div>
-  <div class="cover-hint">向下滑动</div>
+  <div class="cover-title">一岁一礼,一寸欢喜</div>
+   <div class="cover-title"></div>
+  <div class="cover-hint">向上滑动</div>
 </section>
 
-<!-- 正文 -->
 <section id="main">
-
   <div class="fluid one"></div>
   <div class="fluid two"></div>
   <div class="fluid three"></div>
 
-  <script>
-  for(let i=0;i<36;i++){
-    const s=document.createElement("div");
-    s.className="spark";
-    s.style.left=Math.random()*100+"%";
-    s.style.bottom="-10%";
-    s.style.animationDuration=36+Math.random()*40+"s";
-    document.body.appendChild(s);
-  }
-  </script>
-
-  <div class="card">
-    <h1>生日快乐，智敏</h1>
+  <div class="card" id="card">
+    <h1>智敏，生日快乐yo~</h1>
     <div class="text" id="text"></div>
-    <div class="footer">被轻轻保存的一天</div>
+    <div class="footer">——隋玉昂</div>
   </div>
-
-  <div class="hint">轻触屏幕 · 播放音乐 🎹</div>
 </section>
 
+<div class="music-hint" id="musicHint">轻触屏幕 · 玉昂弹琴 🎹</div>
+
+<!-- 火焰光晕 -->
+<div class="flame-glow" id="flameGlow"></div>
+
 <script>
-/* ===== 文本内容 ===== */
+/* ===== 星星 ===== */
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="spark";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=30+Math.random()*40+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),90000);
+},900);
+
+/* ===== 文本 ===== */
 const content=[
-  "今天不需要计划未来",
-  "也不必回应世界的期待",
+  "一页繁星",
+  "半点烛火",
+  "此刻属于你",
   "",
-  "这一刻",
-  "只是属于你",
+  "新的一岁",
+  "愿世界对你",
   "",
-  "愿时间对你",
-  "一直留有温柔"
+  "温柔相待"
 ];
 
-const box=document.getElementById("text");
-const card=document.querySelector(".card");
-const light=document.getElementById("light");
+const textBox=document.getElementById("text");
+const card=document.getElementById("card");
+const cover=document.getElementById("cover");
+const musicHint=document.getElementById("musicHint");
+const flameGlow=document.getElementById("flameGlow");
 
-let entered=false;
-let textStarted=false;
-
-/* 逐字开始函数 */
 function startText(){
-  if(textStarted) return;
-  textStarted=true;
-
   let delay=0;
   content.forEach(line=>{
     line.split("").forEach(ch=>{
@@ -277,39 +242,41 @@ function startText(){
       s.className="char";
       s.textContent=ch;
       s.style.animationDelay=delay+"s";
-      box.appendChild(s);
+      textBox.appendChild(s);
       delay+=0.12;
     });
-    box.appendChild(document.createElement("br"));
+    textBox.appendChild(document.createElement("br"));
     delay+=0.4;
   });
+  // 文本不再淡出，只淡入火焰光晕
+  setTimeout(()=>{
+    flameGlow.style.opacity=1;
+  }, delay*1000 + 3000);
 }
 
-/* ===== 下滑进入正文的唯一时间锚点 ===== */
+/* ===== 滚动触发 ===== */
+let triggered=false;
 window.addEventListener("scroll",()=>{
-  if(!entered && window.scrollY > window.innerHeight * 0.6){
-    entered=true;
-
-    // 触觉
-    if(navigator.vibrate) navigator.vibrate(18);
-
-    // 光线衔接
-    light.classList.add("show");
-    setTimeout(()=>light.classList.remove("show"),800);
-
-    // 卡片预热
-    card.classList.add("warmup");
-
-    // 预热完成后文字出现
-    setTimeout(startText,550);
+  if(triggered) return;
+  if(window.scrollY>window.innerHeight*0.8){
+    triggered=true;
+    const lockY=window.scrollY;
+    cover.classList.add("hide");
+    setTimeout(()=>cover.style.display="none",600);
+    window.addEventListener("scroll",()=>{if(window.scrollY<lockY) window.scrollTo(0,lockY);});
+    setTimeout(()=>{
+      card.classList.add("show");
+      startText();
+    },500);
   }
 });
 
-/* ===== 音乐（保持上一版钢琴） ===== */
+/* ===== 钢琴 BGM ===== */
 let musicStarted=false;
-document.getElementById("main").addEventListener("click",()=>{
+function startMusic(){
   if(musicStarted) return;
   musicStarted=true;
+  musicHint.classList.add("hide");
 
   const ctx=new (window.AudioContext||window.webkitAudioContext)();
   const convolver=ctx.createConvolver();
@@ -325,7 +292,12 @@ document.getElementById("main").addEventListener("click",()=>{
   convolver.buffer=ir;
   convolver.connect(ctx.destination);
 
-  const melody=[264,264,297,264,352,330,264,264,297,264,396,352,264,264,528,440,352,330,297,466,466,440,352,396,352];
+  const melody=[
+    264,264,297,264,352,330,
+    264,264,297,264,396,352,
+    264,264,528,440,352,330,297,
+    466,466,440,352,396,352
+  ];
 
   function piano(freq,time){
     const o=ctx.createOscillator();
@@ -350,7 +322,11 @@ document.getElementById("main").addEventListener("click",()=>{
     setTimeout(play,melody.length*650+2000);
   }
   play();
-});
+}
+
+// 封面或正文点击播放音乐
+cover.addEventListener("click",startMusic);
+document.getElementById("main").addEventListener("click",startMusic);
 </script>
 
 </body>
