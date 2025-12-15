@@ -12,9 +12,15 @@ body{
   overflow:hidden;
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
   color:#fff;
-  background:linear-gradient(120deg,#4b1d4f,#1a001f,#0b1430);
-  background-size:400% 400%;
-  animation:bgFlow 60s ease-in-out infinite;
+  background:linear-gradient(
+    120deg,
+    #4b1d4f,
+    #7a5c65, /* 玫瑰灰 */
+    #1a001f,
+    #0b1430
+  );
+  background-size:500% 500%;
+  animation:bgFlow 15s ease-in-out infinite;
 }
 @keyframes bgFlow{
   0%{background-position:0% 50%;}
@@ -22,21 +28,20 @@ body{
   100%{background-position:0% 50%;}
 }
 
-/* ===== 背景空间 ===== */
+/* ===== 空间 ===== */
 .space{position:absolute;inset:0;overflow:hidden;}
 .nebula{
   position:absolute;
-  width:160vw;
-  height:160vw;
+  width:160vw;height:160vw;
   background:radial-gradient(circle,
-    rgba(255,190,220,.16),
-    rgba(160,120,255,.08),
+    rgba(255,200,220,.16),
+    rgba(160,130,200,.08),
     transparent 70%);
   animation:nebula 120s linear infinite;
 }
 @keyframes nebula{to{transform:rotate(360deg);}}
 
-/* ===== 星点 ===== */
+/* 星点 */
 .star{
   position:absolute;
   width:2px;height:2px;
@@ -44,26 +49,9 @@ body{
   border-radius:50%;
   animation:drift linear infinite;
 }
-@keyframes drift{
-  to{transform:translateY(-130vh);}
-}
+@keyframes drift{to{transform:translateY(-130vh);}}
 
-/* ===== 光晶体 ===== */
-.prism{
-  position:absolute;
-  width:120px;height:120px;
-  background:linear-gradient(
-    135deg,
-    rgba(255,210,230,.22),
-    rgba(180,150,255,.12),
-    rgba(255,210,230,.22)
-  );
-  clip-path:polygon(50% 0,100% 30%,80% 100%,20% 100%,0 30%);
-  animation:prism 90s linear infinite;
-}
-@keyframes prism{to{transform:rotate(360deg);}}
-
-/* ===== 文本框（缩小+透明） ===== */
+/* ===== 卡片 ===== */
 .card{
   position:absolute;
   left:50%;top:50%;
@@ -85,7 +73,7 @@ body{
   to{opacity:1;transform:translate(-50%,-50%) scale(1);}
 }
 
-/* ===== 标题 ===== */
+/* 标题 */
 h1{
   font-size:26px;
   margin-bottom:26px;
@@ -99,7 +87,7 @@ h1{
 }
 @keyframes titleFlow{to{background-position:400%;}}
 
-/* ===== 行文 ===== */
+/* 文本 */
 .line{
   font-size:13px;
   line-height:2.05;
@@ -107,10 +95,9 @@ h1{
   transform:translateY(8px);
   animation:lineIn 1.8s ease forwards;
 }
-@keyframes lineIn{
-  to{opacity:1;transform:translateY(0);}
-}
+@keyframes lineIn{to{opacity:1;transform:translateY(0);}}
 
+/* 页脚 */
 .footer{
   margin-top:30px;
   font-size:10.5px;
@@ -119,7 +106,6 @@ h1{
   animation-delay:7.2s;
 }
 
-/* ===== 音乐提示 ===== */
 .hint{
   position:absolute;
   bottom:18px;
@@ -147,14 +133,6 @@ for(let i=0;i<120;i++){
   s.style.animationDuration=30+Math.random()*50+"s";
   document.body.appendChild(s);
 }
-/* 光晶体 */
-for(let i=0;i<4;i++){
-  const p=document.createElement("div");
-  p.className="prism";
-  p.style.left=Math.random()*100+"%";
-  p.style.top=Math.random()*100+"%";
-  document.body.appendChild(p);
-}
 </script>
 
 <div class="card">
@@ -172,10 +150,9 @@ for(let i=0;i<4;i++){
   <div class="footer">这一岁，被认真照亮</div>
 </div>
 
-<div class="hint">轻触屏幕，音乐将开始 🎼</div>
+<div class="hint">轻触屏幕，音乐将开始 🎹</div>
 
 <script>
-/* ===== 合奏版生日快乐（节拍变化，音量+20%） ===== */
 let started=false;
 document.addEventListener("click",()=>{
   if(started) return;
@@ -183,35 +160,60 @@ document.addEventListener("click",()=>{
 
   const ctx=new (window.AudioContext||window.webkitAudioContext)();
 
+  /* ===== 混响 ===== */
+  const convolver=ctx.createConvolver();
+  const rate=ctx.sampleRate;
+  const len=rate*2.8;
+  const ir=ctx.createBuffer(2,len,rate);
+
+  for(let c=0;c<2;c++){
+    const d=ir.getChannelData(c);
+    for(let i=0;i<len;i++){
+      d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2);
+    }
+  }
+  convolver.buffer=ir;
+  convolver.connect(ctx.destination);
+
   const melody=[
     264,264,297,264,352,330,
     264,264,297,264,396,352,
     264,264,528,440,352,330,297,
     466,466,440,352,396,352
   ];
-  const harmony=[330,352,396,352,330,297];
-  const bass=[132,176,198,176];
 
-  function note(freq,time,dur,vol,type="triangle"){
-    const osc=ctx.createOscillator();
+  function piano(freq,time){
+    const main=ctx.createOscillator();
+    const over=ctx.createOscillator();
     const gain=ctx.createGain();
-    osc.type=type;
-    osc.frequency.value=freq;
+
+    main.type="triangle";
+    over.type="sine";
+
+    main.frequency.value=freq;
+    over.frequency.value=freq*2;
+
+    const v=0.22+Math.random()*0.06;
+
     gain.gain.setValueAtTime(0.001,time);
-    gain.gain.exponentialRampToValueAtTime(vol*1.2,time+0.04);
-    gain.gain.exponentialRampToValueAtTime(0.001,time+dur);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(time);
-    osc.stop(time+dur+0.1);
+    gain.gain.exponentialRampToValueAtTime(v,time+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001,time+1.4+Math.random()*0.3);
+
+    main.connect(gain);
+    over.connect(gain);
+    gain.connect(convolver);
+
+    main.start(time);
+    over.start(time);
+    main.stop(time+2.4);
+    over.stop(time+2.4);
   }
 
   function play(){
     let t=ctx.currentTime;
-    melody.forEach((f,i)=>{
-      note(f,t,1.2,0.22,"triangle");        // 钢琴
-      note(harmony[i%harmony.length],t,1.6,0.16,"sine"); // 合奏
-      if(i%3===0) note(bass[i%bass.length],t,2.2,0.2,"sawtooth");
-      t+=0.85 + Math.random()*0.15; // 节拍变化
+    melody.forEach(f=>{
+      piano(f,t);
+      t+=0.85+Math.random()*0.18;
     });
     setTimeout(play,melody.length*900);
   }
