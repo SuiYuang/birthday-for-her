@@ -12,46 +12,58 @@ body{
   overflow:hidden;
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
   color:#fff;
-  background:linear-gradient(
-    120deg,
-    #4b1d4f,
-    #7a5c65, /* 玫瑰灰 */
-    #1a001f,
-    #0b1430
-  );
-  background-size:500% 500%;
-  animation:bgFlow 15s ease-in-out infinite;
-}
-@keyframes bgFlow{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
+  background:#0b0e1a; /* 底色固定 */
 }
 
-/* ===== 空间 ===== */
-.space{position:absolute;inset:0;overflow:hidden;}
-.nebula{
+/* ===== 流体背景 ===== */
+.fluid{
   position:absolute;
-  width:160vw;height:160vw;
-  background:radial-gradient(circle,
-    rgba(255,200,220,.16),
-    rgba(160,130,200,.08),
-    transparent 70%);
-  animation:nebula 120s linear infinite;
+  width:70vmax;
+  height:70vmax;
+  filter:blur(80px);
+  opacity:.55;
+  animation:move 28s ease-in-out infinite alternate;
 }
-@keyframes nebula{to{transform:rotate(360deg);}}
+.fluid.one{
+  background:radial-gradient(circle,
+    rgba(122,92,101,.55),
+    transparent 60%);
+  top:-20%;
+  left:-10%;
+}
+.fluid.two{
+  background:radial-gradient(circle,
+    rgba(90,60,120,.45),
+    transparent 60%);
+  bottom:-25%;
+  right:-10%;
+  animation-duration:34s;
+}
+.fluid.three{
+  background:radial-gradient(circle,
+    rgba(40,60,120,.4),
+    transparent 65%);
+  top:30%;
+  left:40%;
+  animation-duration:40s;
+}
 
-/* 星点 */
+@keyframes move{
+  from{transform:translate(0,0) scale(1);}
+  to{transform:translate(120px,-80px) scale(1.15);}
+}
+
+/* ===== 星点（保留克制） ===== */
 .star{
   position:absolute;
   width:2px;height:2px;
-  background:rgba(255,240,250,.8);
+  background:rgba(255,240,250,.6);
   border-radius:50%;
   animation:drift linear infinite;
 }
 @keyframes drift{to{transform:translateY(-130vh);}}
 
-/* ===== 卡片 ===== */
+/* ===== 深色柔玻璃卡片 ===== */
 .card{
   position:absolute;
   left:50%;top:50%;
@@ -59,12 +71,17 @@ body{
   width:70%;
   max-width:336px;
   padding:44px 26px;
-  background:rgba(255,255,255,.5);
-  backdrop-filter:blur(28px);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(90,70,90,.55),
+      rgba(40,30,60,.55)
+    );
+  backdrop-filter:blur(38px);
   border-radius:38px;
   box-shadow:
-    0 0 80px rgba(255,170,220,.35),
-    0 0 160px rgba(190,150,255,.25);
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 30px 80px rgba(0,0,0,.55);
   text-align:center;
   animation:cardIn 2.6s ease forwards;
 }
@@ -78,14 +95,14 @@ h1{
   font-size:26px;
   margin-bottom:26px;
   background:linear-gradient(
-    120deg,#ffd1dc,#ffe6a7,#e0c3fc,#ffd1dc
+    120deg,#ffd1dc,#e8c6ff,#ffd1dc
   );
-  background-size:400%;
+  background-size:300%;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:titleFlow 22s linear infinite;
+  animation:titleFlow 18s linear infinite;
 }
-@keyframes titleFlow{to{background-position:400%;}}
+@keyframes titleFlow{to{background-position:300%;}}
 
 /* 文本 */
 .line{
@@ -112,25 +129,26 @@ h1{
   width:100%;
   text-align:center;
   font-size:12px;
-  opacity:.55;
+  opacity:.45;
 }
 </style>
 </head>
 
 <body>
 
-<div class="space">
-  <div class="nebula"></div>
-</div>
+<!-- 流体背景层 -->
+<div class="fluid one"></div>
+<div class="fluid two"></div>
+<div class="fluid three"></div>
 
 <script>
 /* 星点 */
-for(let i=0;i<120;i++){
+for(let i=0;i<90;i++){
   const s=document.createElement("div");
   s.className="star";
   s.style.left=Math.random()*100+"%";
   s.style.top=Math.random()*100+"%";
-  s.style.animationDuration=30+Math.random()*50+"s";
+  s.style.animationDuration=40+Math.random()*60+"s";
   document.body.appendChild(s);
 }
 </script>
@@ -152,6 +170,7 @@ for(let i=0;i<120;i++){
 
 <div class="hint">轻触屏幕，音乐将开始 🎹</div>
 
+<!-- 🎹 音乐：完全保持不变（真实钢琴版） -->
 <script>
 let started=false;
 document.addEventListener("click",()=>{
@@ -160,12 +179,10 @@ document.addEventListener("click",()=>{
 
   const ctx=new (window.AudioContext||window.webkitAudioContext)();
 
-  /* ===== 混响 ===== */
   const convolver=ctx.createConvolver();
   const rate=ctx.sampleRate;
   const len=rate*2.8;
   const ir=ctx.createBuffer(2,len,rate);
-
   for(let c=0;c<2;c++){
     const d=ir.getChannelData(c);
     for(let i=0;i<len;i++){
@@ -186,15 +203,12 @@ document.addEventListener("click",()=>{
     const main=ctx.createOscillator();
     const over=ctx.createOscillator();
     const gain=ctx.createGain();
-
     main.type="triangle";
     over.type="sine";
-
     main.frequency.value=freq;
     over.frequency.value=freq*2;
 
     const v=0.22+Math.random()*0.06;
-
     gain.gain.setValueAtTime(0.001,time);
     gain.gain.exponentialRampToValueAtTime(v,time+0.02);
     gain.gain.exponentialRampToValueAtTime(0.001,time+1.4+Math.random()*0.3);
