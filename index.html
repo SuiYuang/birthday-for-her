@@ -12,58 +12,80 @@ body{
   overflow:hidden;
   font-family:"PingFang SC","Microsoft YaHei",sans-serif;
   color:#fff;
-  background:#0b0e1a; /* 底色固定 */
+  background:#0b0e1a;
 }
 
-/* ===== 流体背景 ===== */
+/* ===== 强流体背景 ===== */
 .fluid{
   position:absolute;
-  width:70vmax;
-  height:70vmax;
-  filter:blur(80px);
-  opacity:.55;
-  animation:move 28s ease-in-out infinite alternate;
+  width:90vmax;
+  height:90vmax;
+  filter:blur(56px);
+  opacity:.75;
+  animation:drift 32s ease-in-out infinite alternate;
+  pointer-events:none;
 }
 .fluid.one{
   background:radial-gradient(circle,
-    rgba(122,92,101,.55),
-    transparent 60%);
-  top:-20%;
-  left:-10%;
+    rgba(160,110,130,.85),
+    rgba(160,110,130,.35),
+    transparent 65%);
+  top:-30%;
+  left:-20%;
 }
 .fluid.two{
   background:radial-gradient(circle,
-    rgba(90,60,120,.45),
-    transparent 60%);
-  bottom:-25%;
-  right:-10%;
-  animation-duration:34s;
+    rgba(120,90,180,.8),
+    rgba(120,90,180,.3),
+    transparent 65%);
+  bottom:-35%;
+  right:-20%;
+  animation-duration:38s;
 }
 .fluid.three{
   background:radial-gradient(circle,
-    rgba(40,60,120,.4),
-    transparent 65%);
-  top:30%;
-  left:40%;
-  animation-duration:40s;
+    rgba(70,110,190,.7),
+    rgba(70,110,190,.25),
+    transparent 70%);
+  top:10%;
+  left:45%;
+  animation-duration:44s;
+}
+.fluid.four{
+  background:radial-gradient(circle,
+    rgba(120,70,90,.75),
+    rgba(120,70,90,.28),
+    transparent 68%);
+  bottom:5%;
+  left:10%;
+  animation-duration:36s;
+}
+.fluid.five{
+  background:radial-gradient(circle,
+    rgba(40,70,140,.65),
+    rgba(40,70,140,.22),
+    transparent 70%);
+  top:-15%;
+  right:20%;
+  animation-duration:42s;
 }
 
-@keyframes move{
+@keyframes drift{
   from{transform:translate(0,0) scale(1);}
-  to{transform:translate(120px,-80px) scale(1.15);}
+  to{transform:translate(180px,-140px) scale(1.2);}
 }
 
-/* ===== 星点（保留克制） ===== */
+/* ===== 星点（更少，衬托流体） ===== */
 .star{
   position:absolute;
   width:2px;height:2px;
-  background:rgba(255,240,250,.6);
+  background:rgba(255,240,250,.45);
   border-radius:50%;
-  animation:drift linear infinite;
+  animation:driftStar linear infinite;
 }
-@keyframes drift{to{transform:translateY(-130vh);}}
+@keyframes driftStar{to{transform:translateY(-130vh);}}
 
-/* ===== 深色柔玻璃卡片 ===== */
+/* ===== 深柔玻璃卡片 ===== */
 .card{
   position:absolute;
   left:50%;top:50%;
@@ -74,14 +96,14 @@ body{
   background:
     linear-gradient(
       180deg,
-      rgba(90,70,90,.55),
-      rgba(40,30,60,.55)
+      rgba(95,75,95,.6),
+      rgba(35,25,55,.6)
     );
-  backdrop-filter:blur(38px);
+  backdrop-filter:blur(40px);
   border-radius:38px;
   box-shadow:
     inset 0 0 0 1px rgba(255,255,255,.06),
-    0 30px 80px rgba(0,0,0,.55);
+    0 40px 120px rgba(0,0,0,.65);
   text-align:center;
   animation:cardIn 2.6s ease forwards;
 }
@@ -90,13 +112,11 @@ body{
   to{opacity:1;transform:translate(-50%,-50%) scale(1);}
 }
 
-/* 标题 */
+/* ===== 文本 ===== */
 h1{
   font-size:26px;
   margin-bottom:26px;
-  background:linear-gradient(
-    120deg,#ffd1dc,#e8c6ff,#ffd1dc
-  );
+  background:linear-gradient(120deg,#ffd1dc,#e6c9ff,#ffd1dc);
   background-size:300%;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
@@ -104,12 +124,133 @@ h1{
 }
 @keyframes titleFlow{to{background-position:300%;}}
 
-/* 文本 */
 .line{
   font-size:13px;
   line-height:2.05;
   opacity:0;
   transform:translateY(8px);
+  animation:lineIn 1.8s ease forwards;
+}
+@keyframes lineIn{to{opacity:1;transform:translateY(0);}}
+
+.footer{
+  margin-top:30px;
+  font-size:10.5px;
+  opacity:0;
+  animation:lineIn 2s ease forwards;
+  animation-delay:7.2s;
+}
+
+.hint{
+  position:absolute;
+  bottom:18px;
+  width:100%;
+  text-align:center;
+  font-size:12px;
+  opacity:.4;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 流体层 -->
+<div class="fluid one"></div>
+<div class="fluid two"></div>
+<div class="fluid three"></div>
+<div class="fluid four"></div>
+<div class="fluid five"></div>
+
+<script>
+/* 星点（减少数量） */
+for(let i=0;i<50;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"%";
+  s.style.top=Math.random()*100+"%";
+  s.style.animationDuration=60+Math.random()*80+"s";
+  document.body.appendChild(s);
+}
+</script>
+
+<div class="card">
+  <h1>生日快乐，智敏</h1>
+
+  <div class="line" style="animation-delay:1.4s">今天不需要计划未来</div>
+  <div class="line" style="animation-delay:2.6s">也不必回应世界的期待</div>
+  <br>
+  <div class="line" style="animation-delay:3.8s">这一刻</div>
+  <div class="line" style="animation-delay:4.8s">只是属于你</div>
+  <br>
+  <div class="line" style="animation-delay:6s">愿时间对你</div>
+  <div class="line" style="animation-delay:7s">一直留有温柔</div>
+
+  <div class="footer">这一岁，被认真照亮</div>
+</div>
+
+<div class="hint">轻触屏幕，音乐将开始 🎹</div>
+
+<!-- 🎹 音乐：完全保持不变 -->
+<script>
+let started=false;
+document.addEventListener("click",()=>{
+  if(started) return;
+  started=true;
+
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const convolver=ctx.createConvolver();
+  const rate=ctx.sampleRate;
+  const len=rate*2.8;
+  const ir=ctx.createBuffer(2,len,rate);
+  for(let c=0;c<2;c++){
+    const d=ir.getChannelData(c);
+    for(let i=0;i<len;i++){
+      d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2);
+    }
+  }
+  convolver.buffer=ir;
+  convolver.connect(ctx.destination);
+
+  const melody=[264,264,297,264,352,330,264,264,297,264,396,352,264,264,528,440,352,330,297,466,466,440,352,396,352];
+
+  function piano(freq,time){
+    const main=ctx.createOscillator();
+    const over=ctx.createOscillator();
+    const gain=ctx.createGain();
+    main.type="triangle";
+    over.type="sine";
+    main.frequency.value=freq;
+    over.frequency.value=freq*2;
+
+    const v=0.22+Math.random()*0.06;
+    gain.gain.setValueAtTime(0.001,time);
+    gain.gain.exponentialRampToValueAtTime(v,time+0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001,time+1.5);
+
+    main.connect(gain);
+    over.connect(gain);
+    gain.connect(convolver);
+
+    main.start(time);
+    over.start(time);
+    main.stop(time+2.4);
+    over.stop(time+2.4);
+  }
+
+  function play(){
+    let t=ctx.currentTime;
+    melody.forEach(f=>{
+      piano(f,t);
+      t+=0.85+Math.random()*0.18;
+    });
+    setTimeout(play,melody.length*900);
+  }
+  play();
+});
+</script>
+
+</body>
+</html>  transform:translateY(8px);
   animation:lineIn 1.8s ease forwards;
 }
 @keyframes lineIn{to{opacity:1;transform:translateY(0);}}
